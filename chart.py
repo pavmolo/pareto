@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-import plotly.express as px
+import plotly.graph_objects as go
 
 def pareto_df(df):
     # Группируем по классам и суммируем значения
@@ -15,11 +15,21 @@ def pareto_df(df):
     return df
 
 def pareto_chart(df):
-    fig = px.bar(df, x=df.columns[0], y=df.columns[1], title="Pareto Chart")
-    
-    # Добавляем линию кумулятивного процента
-    fig.add_scatter(x=df[df.columns[0]], y=df['Cumulative Percentage'], mode='lines+markers', name='Cumulative Percentage')
-    
+    # Создаем фигуру с двумя осями Y
+    fig = go.Figure()
+
+    # Добавляем столбцы для основных данных
+    fig.add_trace(go.Bar(x=df[df.columns[0]], y=df[df.columns[1]], name=df.columns[1]))
+
+    # Добавляем линию кумулятивного процента на альтернативной оси Y
+    fig.add_trace(go.Scatter(x=df[df.columns[0]], y=df['Cumulative Percentage'], mode='lines+markers', name='Cumulative Percentage', yaxis='y2'))
+
+    # Настройка макета для использования двух осей Y
+    fig.update_layout(
+        yaxis=dict(title=df.columns[1]),
+        yaxis2=dict(title='Cumulative Percentage', overlaying='y', side='right')
+    )
+
     return fig
 
 st.title("Pareto Analysis with Streamlit")
