@@ -3,6 +3,9 @@ import pandas as pd
 import plotly.express as px
 
 def pareto_df(df):
+    # Группируем по классам и суммируем значения
+    df = df.groupby(df.columns[0]).sum().reset_index()
+    
     # Сортируем данные по убыванию
     df = df.sort_values(by=df.columns[1], ascending=False)
     
@@ -39,4 +42,3 @@ if uploaded_file:
         
         st.write("Pareto Chart:")
         st.plotly_chart(pareto_chart(pareto_data))
-
