@@ -13,7 +13,7 @@ def pareto_df(df):
     if len(df) > 20:
         other = df.iloc[20:].sum(numeric_only=True)
         other[df.columns[0]] = "Прочее"
-        df = df.iloc[:20].append(other, ignore_index=True)
+        df = pd.concat([df.iloc[:20], pd.DataFrame([other])], ignore_index=True)
     
     # Рассчитываем кумулятивный процент
     df['Cumulative Percentage'] = df[df.columns[1]].cumsum() / df[df.columns[1]].sum() * 100
