@@ -9,6 +9,12 @@ def pareto_df(df):
     # Сортируем данные по убыванию
     df = df.sort_values(by=df.columns[1], ascending=False)
     
+    # Если классов больше 20, группируем оставшиеся в "Прочее"
+    if len(df) > 20:
+        other = df.iloc[20:].sum(numeric_only=True)
+        other[df.columns[0]] = "Прочее"
+        df = df.iloc[:20].append(other, ignore_index=True)
+    
     # Рассчитываем кумулятивный процент
     df['Cumulative Percentage'] = df[df.columns[1]].cumsum() / df[df.columns[1]].sum() * 100
     
