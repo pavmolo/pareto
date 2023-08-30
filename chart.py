@@ -28,7 +28,7 @@ def pareto_chart(df):
     fig.add_trace(go.Bar(x=df[df.columns[0]], y=df[df.columns[1]], name=df.columns[1]))
 
     # Добавляем линию кумулятивного процента на альтернативной оси Y
-    fig.add_trace(go.Scatter(x=df[df.columns[0]], y=df['Cumulative Percentage'], mode='lines+markers', name='Cumulative Percentage', yaxis='y2'))
+    fig.add_trace(go.Scatter(x=df[df.columns[0]], y=df['Cumulative Percentage'], mode='lines+markers', name='Накопленный процент', yaxis='y2'))
 
     # Настройка макета для использования двух осей Y
     fig.update_layout(
